@@ -1,0 +1,21 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true,
+        "tst14": true,
+        "tst11": true,
+        "src14": true,
+        "src11": true,
+        "doc14": true,
+        "doc": true
+    },
+    "explorerExclude.backup": {}
+}
