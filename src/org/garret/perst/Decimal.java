@@ -1,12 +1,5 @@
 package org.garret.perst;
 
-/**
- * Class representing 64-bit decimal number.
- * It provides fixed point arithmetic and can be also used in Lucene full text search engine
- * to convert number to strings with proper lexicographical order (so 
- * range operator in Lucene query can be used for numeric fields).
- * This class supports operations only for number having the same precision and width.
- */
 public class Decimal extends Number implements Comparable<Decimal>, IValue
 { 
     private long value;
@@ -14,9 +7,6 @@ public class Decimal extends Number implements Comparable<Decimal>, IValue
     private transient long maxValue;
     private transient long scale;
 
-    /**
-     * Get number of digits in integer part of the number, i.e. 5 in XXXXX.YY
-     */
     public int getIntegerDigits() {
         return ((int)value >> 4) & 0xF;
     }
@@ -443,12 +433,6 @@ public class Decimal extends Number implements Comparable<Decimal>, IValue
         return pad((value >> 8) / scale, getIntegerDigits()+1, filler) + "." + pad((value < 0 ? -(value >> 8) : (value >> 8)) % scale, getFractionDigits(), '0');
     }
 
-    /**
-     * Get string representation of the given decimal number which been compared with
-     * another such string representation of decimal number will produce the same
-     * comparison result as of original decimal numbers
-     * @return string which cn be used in comparison insteadof decimal value
-     */
     public String toLexicographicString() {
         calculateScale();
         return pad(((value >> 8) + maxValue) / scale, getIntegerDigits()+1, '0') 

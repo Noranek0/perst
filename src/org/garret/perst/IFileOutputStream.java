@@ -3,10 +3,6 @@ package org.garret.perst;
 import java.io.*;
 import org.garret.perst.impl.Page;
 
-/**
- * Stream class implementation on top of Perst file.
- * Can be used in Storage.Backup method
- */
 public class IFileOutputStream extends OutputStream
 {
     public void write(int b) throws IOException
@@ -51,4 +47,3 @@ public class IFileOutputStream extends OutputStream
     long currPos;
     byte[] page;
 }
-        

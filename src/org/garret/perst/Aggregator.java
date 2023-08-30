@@ -2,51 +2,6 @@ package org.garret.perst;
 
 import java.util.*;
 
-/**
- * Class used to perform aggregation.
- * Grouping and aggregation is done using two interfaces <code>Aggregate</code> and <code>GroupBy</code>.
- * <code>Aggregate</code> interface is used to provide aggregate implementations. 
- * There are some predefined implementations for standard aggregates: max, min, sum, avg, count... 
- * And it is possible to define own aggregates.<p>
- * <code>GroupBy</code> interface should be implemented by programmer (it is convenient to use anonymous classes)
- * and defines aggregation query: how to split input data into groups and which aggregates to calculate for the group.
- * So this class gives answer for the questions:
- * <ol>
- * <li>Which field(s) are used for grouping (group-by fields)?</li>
- * <li>For which field aggregate(s) should be calculated?</li>
- * <li>Which aggregate(s) should be calculated for each group?</li>
- * </ol>
- * Aggregator is using map to associate aggregate states with groups. This map is returned as result of 
- * aggregation. Aggregator can use ordered or unordered map (TreeMap or HashMap). Ordered map returns results in ascending 
- * order of group-by values.
- * <p>
- * Example:
- * <pre>
- *     class Quote implements TimeSeries.Tick { 
- *         public long  date;
- *         public float open;
- *         public float close;
- *         public float low;
- *         public float high;
- *         public int   volume;
- * 
- *         public long getTime() { 
- *            return date;
- *         }
- *     };
- *     // Query: select  standard deviation of difference between low and high prices for IBM for each month during 1990 till 2012
- *     Stock stock = stocks.get("IBM");
- *     IterableIterator&lt;Quote&gt; iterator = stock.quotes.iterator(new Date(1990, 0, 1), new Date(2012, 0, 1));
- *     Map&lt;Object,Aggregator.Aggregate&gt; result = Aggregator.&lt;Quote&gt;aggregate(iterator, new Aggregator.GroupBy&lt;Quote&gt;() {
- *         public Aggregator.Aggregate getAggregate() { return new Aggregator.DevAggregate(); } 
- *         public Object getKey(Quote quote) { return (new Date(quote.date)).getMonth(); }
- *         public Object getValue(Quote quote) { return quote.high - quote.low; }
- *     }, true);
- *     for (Map.Entry&lt;Object,Aggregator.Aggregate&gt; pair : result) { 
- *         System.out.println("Group " + pair.getKey() + "-&gt;" + pair.getValue().result());
- *     }
- * </pre>
- */
 public class Aggregator
 {
     /**
