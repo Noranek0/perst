@@ -1,8 +1,5 @@
 package org.garret.perst;
 
-/**
- * Exception throw by storage implementation
- */
 public class StorageError extends RuntimeException { 
     public static final int STORAGE_NOT_OPENED     = 1;
     public static final int STORAGE_ALREADY_OPENED = 2;
@@ -88,13 +85,6 @@ public class StorageError extends RuntimeException {
         return errorCode;
     }
 
-    /**
-     * Get original exception if StorageError excepotion was thrown as the result 
-     * of catching some other exception within Storage implementation. 
-     * StorageError is used as wrapper of other exceptions to avoid cascade propagation
-     * of throws and try/catch constructions.
-     * @return original exception or <code>null</code> if there is no such exception
-     */
     public Exception getOriginalException() {
         return origEx;
     }

@@ -7,11 +7,7 @@ import org.garret.perst.impl.ThreadTransactionContext;
 /**
  * Object storage
  */
-public interface Storage { 
-    /**
-     * Constant specifying that page pool should be dynamically extended 
-     * to conatins all database file pages
-     */
+public interface Storage {
     public static final int INFINITE_PAGE_POOL = 0;
     /**
      * Constant specifying default pool size
