@@ -2,41 +2,29 @@ package org.garret.perst;
 
 import java.net.InetAddress;
 
-/** 
- * Convert different type of keys to 64-bit long value used in PATRICIA trie 
- * (Practical Algorithm To Retrieve Information Coded In Alphanumeric)
- */
 public class PatriciaTrieKey {
-    /**
-     * Bit mask representing bit vector.
-     * The last digit of the key is the right most bit of the mask
-     */
     public final long mask;
+    public final int length;
 
-    /**
-     * Length of bit vector (can not be larger than 64)
-     */
-    public final int  length;
-
-    public PatriciaTrieKey(long mask, int length) { 
+    public PatriciaTrieKey(long mask, int length) {
         this.mask = mask;
         this.length = length;
     }
 
-    public static PatriciaTrieKey fromIpAddress(InetAddress addr) { 
+    public static PatriciaTrieKey fromIpAddress(InetAddress addr) {
         byte[] bytes = addr.getAddress();
         long mask = 0;
-        for (int i = 0; i < bytes.length; i++) { 
+        for (int i = 0; i < bytes.length; i++) {
             mask = (mask << 8) | (bytes[i] & 0xFF);
         }
-        return new PatriciaTrieKey(mask, bytes.length*8);
+        return new PatriciaTrieKey(mask, bytes.length * 8);
     }
 
-    public static PatriciaTrieKey fromIpAddress(String addr) throws NumberFormatException { 
+    public static PatriciaTrieKey fromIpAddress(String addr) throws NumberFormatException {
         long mask = 0;
         int pos = 0;
         int len = 0;
-        do { 
+        do {
             int dot = addr.indexOf('.', pos);
             String part = dot < 0 ? addr.substring(pos) : addr.substring(pos, dot);
             pos = dot + 1;
@@ -47,7 +35,7 @@ public class PatriciaTrieKey {
         return new PatriciaTrieKey(mask, len);
     }
 
-    public static PatriciaTrieKey fromDecimalDigits(String digits) { 
+    public static PatriciaTrieKey fromDecimalDigits(String digits) {
         long mask = 0;
         int n = digits.length();
         Assert.that(n <= 16);
@@ -56,21 +44,21 @@ public class PatriciaTrieKey {
             Assert.that(ch >= '0' && ch <= '9');
             mask = (mask << 4) | (ch - '0');
         }
-        return new PatriciaTrieKey(mask, n*4);
-    }    
+        return new PatriciaTrieKey(mask, n * 4);
+    }
 
-    public static PatriciaTrieKey from7bitString(String str) { 
+    public static PatriciaTrieKey from7bitString(String str) {
         long mask = 0;
         int n = str.length();
-        Assert.that(n*7 <= 64);
+        Assert.that(n * 7 <= 64);
         for (int i = 0; i < n; i++) {
             char ch = str.charAt(i);
             mask = (mask << 7) | (ch & 0x7F);
         }
-        return new PatriciaTrieKey(mask, n*7);
+        return new PatriciaTrieKey(mask, n * 7);
     }
 
-    public static PatriciaTrieKey from8bitString(String str) { 
+    public static PatriciaTrieKey from8bitString(String str) {
         long mask = 0;
         int n = str.length();
         Assert.that(n <= 8);
@@ -78,16 +66,16 @@ public class PatriciaTrieKey {
             char ch = str.charAt(i);
             mask = (mask << 8) | (ch & 0xFF);
         }
-        return new PatriciaTrieKey(mask, n*8);
-    }    
+        return new PatriciaTrieKey(mask, n * 8);
+    }
 
-    public static PatriciaTrieKey fromByteArray(byte[] arr) { 
+    public static PatriciaTrieKey fromByteArray(byte[] arr) {
         long mask = 0;
         int n = arr.length;
         Assert.that(n <= 8);
         for (int i = 0; i < n; i++) {
             mask = (mask << 8) | (arr[i] & 0xFF);
         }
-        return new PatriciaTrieKey(mask, n*8);
+        return new PatriciaTrieKey(mask, n * 8);
     }
 }

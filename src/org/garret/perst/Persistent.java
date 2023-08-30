@@ -1,9 +1,6 @@
 package org.garret.perst;
 import org.garret.perst.impl.StorageImpl;
 
-/**
- * Base class for all persistent capable objects
- */
 public class Persistent extends PinnedPersistent
 { 
     public Persistent() {}

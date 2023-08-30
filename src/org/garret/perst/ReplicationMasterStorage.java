@@ -1,13 +1,5 @@
 package org.garret.perst;
 
-/**
- * Storage performing replication of changed pages to specified slave nodes.
- */
-public interface ReplicationMasterStorage extends Storage { 
-    /**
-     * Get number of currently available slave nodes
-     * @return number of online replication slaves
-     */
+public interface ReplicationMasterStorage extends Storage {
     public int getNumberOfAvailableHosts();
-}   
-    
+}
