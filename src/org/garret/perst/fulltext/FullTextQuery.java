@@ -1,9 +1,5 @@
 package org.garret.perst.fulltext;
 
-/**
- * Base class for full test search query nodes.
- * Query can be parsed by FullTextSearchHelper class or explicitly created by user.
- */
 public class FullTextQuery 
 {
     public static final int MATCH = 0;     
@@ -17,26 +13,14 @@ public class FullTextQuery
 
     public int op;
 
-    /**
-     * Query node visitor.
-     * It provides convenient way of iterating through query nodes.
-     */
     public void visit(FullTextQueryVisitor visitor) { 
         visitor.visit(this);
     }
 
-    /**
-     * This method checks that query can be executed by interection of keyword occurrences lists
-     * @return true if quuery can be executed by FullTextIndex, false otherwise
-     */
     public boolean isConstrained() { 
         return false;
     }
 
-    /**
-     * Query node constructor
-     * @param op operation code
-     */
     public FullTextQuery(int op) { 
         this.op = op;
     }       

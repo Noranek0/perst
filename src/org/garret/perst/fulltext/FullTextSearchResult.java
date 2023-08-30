@@ -2,28 +2,10 @@ package org.garret.perst.fulltext;
 
 import java.util.*;
 
-/**
- * Full text search result
- */
-public class FullTextSearchResult { 
-    /**
-     * Estimation of total number of documents in the index matching this query.
-     * Full text search query result is usually limited by number of returned documents
-     * and query execution time. So there are can be more documents in the index matching this query than 
-     * actually returned. This field provides estimation for total number of documents matching the query.
-     */
+public class FullTextSearchResult {
     public int estimation;
-
-    /**
-     * Full text search result hits
-     */
     public FullTextSearchHit[] hits;
-    
-    /** 
-     * Merge results of two searches
-     * @param another Full text search result to merge with this result
-     * @return Result set containing documents present in both result sets
-     */
+
     public FullTextSearchResult merge(FullTextSearchResult another) {
         if (hits.length == 0 || another.hits.length == 0) {
             return new FullTextSearchResult(new FullTextSearchHit[0], 0);
@@ -48,7 +30,6 @@ public class FullTextSearchResult {
         Arrays.sort(joinHits);
         return new FullTextSearchResult(joinHits, Math.min(estimation*n/hits.length, another.estimation*n/another.hits.length));
     }
-
 
     public FullTextSearchResult(FullTextSearchHit[] hits, int estimation) { 
         this.hits = hits;

@@ -1,15 +1,4 @@
-/*
- * Created on Jan 24, 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package org.garret.perst.aspectj;
-
-/**
- * @author Patrick Morris-Suzuki
- *
- */
 
 import org.garret.perst.*;
 
@@ -21,33 +10,21 @@ privileged public aspect PersistenceAspect {
     pointcut persistentMethod(): 
         execution(!static * ((Persistent+ && !Persistent) || (AutoPersist+ && !(StrictAutoPersist+) && !AutoPersist)).*(..))
         && !execution(void *.recursiveLoading());
-                
-    /*
-     * Load object at the beginning of each instance mehtod of persistent capable object
-     */         
+
     before(IPersistent t) : persistentMethod() && this(t) {
         t.load();
     }
 
-    /*
-     * Read access to fields of persistent object
-     */ 
     before(StrictAutoPersist t): get(!transient !static * StrictAutoPersist+.*) && notPerstCode() && target(t)
     {
         t.load();
     }
-
-    /*
-     * Read access to fields of persistent object
-     */ 
+    
     before(StrictAutoPersist t): set(!transient !static * StrictAutoPersist+.*) && notPerstCode() && target(t) 
     {
         t.loadAndModify();
     }
 
-    /*
-     * Automatically notice modifications to any fields.
-     */
     before(AutoPersist t):  set(!transient !static * (AutoPersist+ && !(StrictAutoPersist+)).*)
         && notPerstCode() && !withincode(*.new(..)) && target(t)  
     {
@@ -195,12 +172,6 @@ privileged public aspect PersistenceAspect {
     public Object AutoPersist.clone() throws CloneNotSupportedException 
     { 
         throw new CloneNotSupportedException();
-        /* Doen't work any more...
-        Persistent p = (Persistent)super.clone();
-        p.oid = 0;
-        p.state = 0;
-        return p;
-        */
     }
 
     public void AutoPersist.readExternal(java.io.ObjectInput s) throws java.io.IOException, ClassNotFoundException
